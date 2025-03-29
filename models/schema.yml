@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: hello_dbt
+    description: Demo model
+    tags: [prod_run]
+    columns:
+      - name: today
+        tests:
+          - not_null
