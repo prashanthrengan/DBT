@@ -1,0 +1,20 @@
+# ✅ 2. Trigger dbt Cloud Job to Deploy to Production (after merge to main)
+# File: .github/workflows/dbt-deploy-prod.yml
+
+name: Trigger dbt Cloud Deploy (Prod)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-to-prod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger dbt Cloud Job
+        run: |
+          curl -X POST https://cloud.getdbt.com/api/v2/accounts/${{ secrets.DBT_CLOUD_ACCOUNT_ID }}/jobs/${{ secrets.DBT_PROD_JOB_ID }}/run/ \
+          -H "Authorization: Token ${{ secrets.DBT_CLOUD_API_TOKEN }}" \
+          -H "Content-Type: application/json"
