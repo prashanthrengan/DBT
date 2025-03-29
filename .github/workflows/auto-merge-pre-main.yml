@@ -1,0 +1,26 @@
+# ✅ 1. Auto-Merge PR from pre → main when labeled as 'approved'
+# File: .github/workflows/auto-merge-pre-main.yml
+
+name: Auto-Merge PR from pre → main
+
+on:
+  pull_request:
+    types: [labeled]
+    branches:
+      - main
+
+jobs:
+  auto-merge:
+    if: github.event.pull_request.user.login != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - name: Auto-merge when PR has 'approved' label
+        uses: pascalgn/automerge-action@v0.16.3
+        with:
+          github_token: ${{ secrets.SYNC }}
+          merge_method: squash
+          labels: "approved"
